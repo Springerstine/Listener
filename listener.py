@@ -13,10 +13,10 @@ class Listener:
 
    def reliable_send(self, data):
       json_data = json.dumps(data)
-      self.connection.send(json_data)
+      self.connection.send(json_data.encode())
 
    def reliable_receive(self):
-      json_data = ""
+      json_data = b""
       while True:
          try:
             json_data = json_data + self.connection.recv(1024)
@@ -44,7 +44,6 @@ class Listener:
       while True:
          cmmd = input(">> ")
          cmmd = cmmd.split(" ")
-
 
          try:
             if cmmd[0] == "upload":
